@@ -25,6 +25,13 @@ DIAS = {0: 'Lunes', 1: 'Martes', 2: 'Miércoles', 3: 'Jueves',
 MESES = {1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril', 5: 'Mayo', 6: 'Junio',
          7: 'Julio', 8: 'Agosto', 9: 'Septiembre', 10: 'Octubre',
          11: 'Noviembre', 12: 'Diciembre'}
+MESES_ABREV = {1: 'Ene', 2: 'Feb', 3: 'Mar', 4: 'Abr', 5: 'May', 6: 'Jun',
+               7: 'Jul', 8: 'Ago', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dic'}
+
+# EL DATASET DE ENTRENAMIENTO CUBRE ÚNICAMENTE ENERO-JUNIO DE UN AÑO FIJO.
+# EL DROPDOWN DE AÑO SE DEJA PREPARADO PARA CUANDO SE INCORPOREN MÁS AÑOS DE DATOS.
+ANIOS_DISPONIBLES = [2026]
+MESES_DEL_DATASET = list(range(1, 7))  # ENERO A JUNIO
 
 COLOR_TEAL = 'teal'
 COLOR_CORAL = 'coral'
@@ -134,12 +141,19 @@ with tab_eda:
     )
     st.sidebar.header("Filtros del análisis")
 
-    meses_disponibles = sorted(grupo_mes_weekend['arrival_month'].unique().tolist())
+    anio_sel = st.sidebar.selectbox("Año", options=ANIOS_DISPONIBLES)
+
+    # SE RESTRINGE A ENERO-JUNIO, LA VENTANA REAL CUBIERTA POR EL DATASET DE ENTRENAMIENTO,
+    # AUNQUE LA TABLA AGREGADA CONTUVIERA ALGÚN OTRO MES
+    meses_disponibles = sorted(
+        m for m in grupo_mes_weekend['arrival_month'].unique().tolist()
+        if m in MESES_DEL_DATASET
+    )
     meses_sel = st.sidebar.multiselect(
         "Mes de llegada",
         options=meses_disponibles,
         default=meses_disponibles,
-        format_func=lambda m: MESES.get(m, m)
+        format_func=lambda m: f"{MESES.get(m, m)} {anio_sel}"
     )
 
     solo_fin_de_semana = st.sidebar.selectbox(
@@ -188,18 +202,19 @@ with tab_eda:
             st.pyplot(fig)
 
         with c2:
-            st.subheader("Proporción de cancelación por mes de llegada")
+            st.subheader(f"Proporción de cancelación por mes de llegada ({anio_sel})")
             por_mes = grupo_filtrado.groupby('arrival_month').agg(
                 n_reservas=('n_reservas', 'sum'),
                 n_canceladas=('n_canceladas', 'sum')
             ).reset_index()
             por_mes['proporcion_cancelada'] = por_mes['n_canceladas'] / por_mes['n_reservas']
             por_mes['proporcion_completada'] = 1 - por_mes['proporcion_cancelada']
+            etiquetas_mes = [f"{MESES_ABREV.get(m, m)}\n{anio_sel}" for m in por_mes['arrival_month']]
 
             fig, ax = plt.subplots(figsize=(5, 4))
-            ax.bar(por_mes['arrival_month'].astype(str), por_mes['proporcion_completada'],
+            ax.bar(etiquetas_mes, por_mes['proporcion_completada'],
                    color=COLOR_TEAL, label='Completada')
-            ax.bar(por_mes['arrival_month'].astype(str), por_mes['proporcion_cancelada'],
+            ax.bar(etiquetas_mes, por_mes['proporcion_cancelada'],
                    bottom=por_mes['proporcion_completada'], color=COLOR_CORAL, label='Cancelada')
             ax.set_xlabel('Mes de llegada')
             ax.set_ylabel('Proporción')
