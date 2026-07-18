@@ -1,0 +1,82 @@
+{
+  "total_amount_before_tax": [
+    {
+      "label": "Completada",
+      "q1": 139.0,
+      "med": 239.28500000000003,
+      "q3": 403.2,
+      "whislo": 0.0,
+      "whishi": 799.4,
+      "fliers": []
+    },
+    {
+      "label": "Cancelada",
+      "q1": 174.0,
+      "med": 320.015,
+      "q3": 559.9224999999999,
+      "whislo": 0.0,
+      "whishi": 1138.5,
+      "fliers": []
+    }
+  ],
+  "days_booked_prior_to_arrival": [
+    {
+      "label": "Completada",
+      "q1": 46.0,
+      "med": 62.0,
+      "q3": 87.0,
+      "whislo": -1.0,
+      "whishi": 143.0,
+      "fliers": []
+    },
+    {
+      "label": "Cancelada",
+      "q1": 67.0,
+      "med": 102.0,
+      "q3": 149.0,
+      "whislo": -1.0,
+      "whishi": 272.0,
+      "fliers": []
+    }
+  ],
+  "duration_of_stay": [
+    {
+      "label": "Completada",
+      "q1": 1.0,
+      "med": 2.0,
+      "q3": 2.0,
+      "whislo": 0.0,
+      "whishi": 3.0,
+      "fliers": []
+    },
+    {
+      "label": "Cancelada",
+      "q1": 1.0,
+      "med": 2.0,
+      "q3": 3.0,
+      "whislo": 0.0,
+      "whishi": 6.0,
+      "fliers": []
+    }
+  ],
+  "booking_hour": [
+    {
+      "label": "Completada",
+      "q1": 4.0,
+      "med": 16.0,
+      "q3": 20.0,
+      "whislo": 0.0,
+      "whishi": 23.0,
+      "fliers": []
+    },
+    {
+      "label": "Cancelada",
+      "q1": 5.0,
+      "med": 15.0,
+      "q3": 19.0,
+      "whislo": 0.0,
+      "whishi": 23.0,
+      "fliers": []
+    }
+  ]
+}

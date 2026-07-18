@@ -1,0 +1,1 @@
+{"total_amount_before_tax": {"min": 67.089, "max": 2522.301500000004, "default": 284.8}, "days_booked_prior_to_arrival": {"min": 24, "max": 284, "default": 83}, "duration_of_stay": {"min": 1, "max": 14, "default": 2}}
